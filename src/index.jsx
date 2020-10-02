@@ -4,7 +4,7 @@ import 'regenerator-runtime/runtime';
 import ReactDOM from 'react-dom';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, applyMiddleware } from '@reduxjs/toolkit';
 
 import '../assets/application.scss';
 
@@ -13,6 +13,7 @@ import gon from 'gon';
 import Cookies from 'js-cookie';
 import io from 'socket.io-client';
 import Rollbar from 'rollbar';
+import rollbarMiddleware from 'rollbar-redux-middleware';
 
 import rootReducer from './reducers';
 import App from './components/App';
@@ -31,6 +32,7 @@ const rollbar = new Rollbar({
   captureUnhandledRejections: true,
   enabled: (nodeEnv === 'production'),
 });
+const rollbarRedux = rollbarMiddleware(rollbar);
 
 const currentUsernameCooky = Cookies.get('username');
 const currentUsername = currentUsernameCooky
@@ -40,12 +42,13 @@ Cookies.set('username', currentUsername);
 const store = configureStore({
   reducer: rootReducer,
   preloadedState: gon,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(rollbarRedux),
 });
 
 ReactDOM.render(
   <UsernameContext.Provider value={currentUsername}>
     <Provider store={store}>
-      <App rollbar={rollbar} />
+      <App />
     </Provider>
   </UsernameContext.Provider>,
   document.getElementById('chat'),
