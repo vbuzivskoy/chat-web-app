@@ -1,9 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import {
-  Formik,
-  Form,
-} from 'formik';
 import axios from 'axios';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
@@ -29,14 +25,16 @@ const RemoveChannelModal = (props) => {
     hideRemoveChannelModal, // eslint-disable-line no-shadow
   } = props;
 
-  const removerChannelHandler = async (values, { setErrors }) => {
+  const [submitError, setSubmitError] = useState('');
+
+  const removerChannelHandler = async () => {
     const route = routes.channelPath(channelToBeRemoved.id);
     try {
       await axios.delete(route);
       removeChannel({ id: channelToBeRemoved.id });
       hideRemoveChannelModal();
     } catch (error) {
-      setErrors({ submit: error.message });
+      setSubmitError(error.message);
     }
   };
 
@@ -54,35 +52,26 @@ const RemoveChannelModal = (props) => {
       onHide={hideRemoveChannelModalHandler}
       centered
     >
-      <Formik
-        initialValues={{}}
-        onSubmit={removerChannelHandler}
-      >
-        {({ errors }) => (
-          <Form>
-            <Modal.Header closeButton>
-              <Modal.Title>
-                Confirm to remove channel &quot;
-                {channelToBeRemoved.name}
-                &quot;
-              </Modal.Title>
-            </Modal.Header>
+      <Modal.Header closeButton>
+        <Modal.Title>
+          Confirm to remove channel &quot;
+          {channelToBeRemoved.name}
+          &quot;
+        </Modal.Title>
+      </Modal.Header>
 
-            {errors.submit && (
-              <Modal.Body>
-                <div className="invalid-feedback d-block">{errors.submit}</div>
-              </Modal.Body>
-            )}
+      {submitError && (
+        <Modal.Body>
+          <div className="invalid-feedback d-block">{submitError}</div>
+        </Modal.Body>
+      )}
 
-            <Modal.Footer>
-              <Button variant="secondary" onClick={hideRemoveChannelModalHandler}>
-                Cancel
-              </Button>
-              <Button variant="warning" type="submit">Remove</Button>
-            </Modal.Footer>
-          </Form>
-        )}
-      </Formik>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={hideRemoveChannelModalHandler}>
+          Cancel
+        </Button>
+        <Button variant="warning" onClick={removerChannelHandler}>Remove</Button>
+      </Modal.Footer>
     </Modal>
   );
 };
