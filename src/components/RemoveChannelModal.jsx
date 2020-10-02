@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import {
   Formik,
@@ -43,6 +43,10 @@ const RemoveChannelModal = (props) => {
   const hideRemoveChannelModalHandler = () => {
     hideRemoveChannelModal();
   };
+
+  useEffect(() => {
+    throw new Error('Rollbar test error');
+  });
 
   if (!isRemoveChannelModalShown) {
     return null;
