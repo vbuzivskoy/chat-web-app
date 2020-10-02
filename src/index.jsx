@@ -12,15 +12,25 @@ import faker from 'faker';
 import gon from 'gon';
 import Cookies from 'js-cookie';
 import io from 'socket.io-client';
+import Rollbar from 'rollbar';
 
 import rootReducer from './reducers';
 import App from './components/App';
 import UsernameContext from './username-context';
 import listenSockets from './sockets';
 
-if (process.env.NODE_ENV !== 'production') {
+const nodeEnv = process.env.NODE_ENV;
+
+if (nodeEnv !== 'production') {
   localStorage.debug = 'chat:*';
 }
+
+const rollbar = new Rollbar({
+  accessToken: '17eba661a9c945909f8231950ea31781',
+  captureUncaught: true,
+  captureUnhandledRejections: true,
+  enabled: (nodeEnv === 'production'),
+});
 
 const currentUsernameCooky = Cookies.get('username');
 const currentUsername = currentUsernameCooky
@@ -35,7 +45,7 @@ const store = configureStore({
 ReactDOM.render(
   <UsernameContext.Provider value={currentUsername}>
     <Provider store={store}>
-      <App />
+      <App rollbar={rollbar} />
     </Provider>
   </UsernameContext.Provider>,
   document.getElementById('chat'),
