@@ -4,7 +4,7 @@ import 'regenerator-runtime/runtime';
 import ReactDOM from 'react-dom';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { configureStore, applyMiddleware } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 
 import '../assets/application.scss';
 
