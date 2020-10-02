@@ -3,7 +3,7 @@
 import path from 'path';
 import buildApp from '../server';
 
-const buildUrl = (url) => path.join('/api/v1/', url);
+const buildUrl = (url) => path.join('api/v1/', url);
 
 test('get /channels/:id/messages', async () => {
   const state = {
