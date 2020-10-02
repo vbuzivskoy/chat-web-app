@@ -1,4 +1,6 @@
-import React, { useEffect } from 'react';
+/* eslint-disable no-shadow, jsx-a11y/label-has-associated-control */
+
+import React from 'react';
 import { connect } from 'react-redux';
 import {
   Formik,
@@ -43,8 +45,8 @@ const EditChannelModal = (props) => {
   const {
     isEditChannelModalShown,
     channelToBeEdited,
-    updateChannel, // eslint-disable-line no-shadow
-    hideEditChannelModal, // eslint-disable-line no-shadow
+    updateChannel,
+    hideEditChannelModal,
   } = props;
 
   const onEditChannelHandler = async (values, { setErrors }) => {

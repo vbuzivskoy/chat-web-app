@@ -1,3 +1,5 @@
+/* eslint-disable no-shadow, jsx-a11y/label-has-associated-control */
+
 import React from 'react';
 import { connect } from 'react-redux';
 import {
@@ -42,9 +44,9 @@ const validate = ({ name }) => {
 const AddChannelModal = (props) => {
   const {
     isAddChannelModalShown,
-    addChannel, // eslint-disable-line no-shadow
-    hideAddChannelModal, // eslint-disable-line no-shadow
-    setCurrentChannelId, // eslint-disable-line no-shadow
+    addChannel,
+    hideAddChannelModal,
+    setCurrentChannelId,
   } = props;
 
   const onAddChannelHandler = async ({ name }, { setErrors }) => {
@@ -87,8 +89,9 @@ const AddChannelModal = (props) => {
             </Modal.Header>
 
             <Modal.Body>
-              <label htmlFor="name">Channel name</label>
+              <label htmlFor="channelName">Channel name</label>
               <Field
+                id="channelName"
                 name="name"
                 className="form-control"
                 autoFocus
