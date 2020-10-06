@@ -1,3 +1,5 @@
+/* eslint-disable no-shadow */
+
 import React from 'react';
 import { connect } from 'react-redux';
 import { Button, Row, Col } from 'react-bootstrap';
@@ -14,7 +16,7 @@ import { showAddChannelModal } from '../reducers/appUI';
 const actionCreators = { showAddChannelModal };
 
 const App = (props) => {
-  const { showAddChannelModal } = props; // eslint-disable-line no-shadow
+  const { showAddChannelModal } = props;
 
   const showNewCannelModalHandler = () => {
     showAddChannelModal();

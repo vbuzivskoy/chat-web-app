@@ -1,3 +1,5 @@
+/* eslint-disable no-shadow */
+
 import React, { useContext } from 'react';
 import { connect } from 'react-redux';
 import {
@@ -36,7 +38,7 @@ const validate = ({ text }) => {
 };
 
 const AddMessageForm = (props) => {
-  const { currentChannelId, addMessage } = props; // eslint-disable-line no-shadow
+  const { currentChannelId, addMessage } = props;
   const username = useContext(UsernameContext);
 
   return (

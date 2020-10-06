@@ -1,3 +1,5 @@
+/* eslint-disable no-shadow */
+
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
@@ -21,8 +23,8 @@ const RemoveChannelModal = (props) => {
   const {
     isRemoveChannelModalShown,
     channelToBeRemoved,
-    removeChannel, // eslint-disable-line no-shadow
-    hideRemoveChannelModal, // eslint-disable-line no-shadow
+    removeChannel,
+    hideRemoveChannelModal,
   } = props;
 
   const [submitError, setSubmitError] = useState('');

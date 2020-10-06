@@ -1,3 +1,5 @@
+/* eslint-disable no-shadow */
+
 import React from 'react';
 import { connect } from 'react-redux';
 import { XCircle, Pencil } from 'react-bootstrap-icons';
@@ -17,9 +19,9 @@ const Channels = (props) => {
   const {
     channels,
     currentChannelId,
-    setCurrentChannelId, // eslint-disable-line no-shadow
-    showRemoveChannelModal, // eslint-disable-line no-shadow
-    showEditChannelModal, // eslint-disable-line no-shadow
+    setCurrentChannelId,
+    showRemoveChannelModal,
+    showEditChannelModal,
   } = props;
 
   if (channels.length === 0) {
