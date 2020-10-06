@@ -15,7 +15,6 @@ export default (socket, store) => {
   });
 
   socket.on('removeChannel', ({ data: { id } }) => {
-    console.log('removeChannel', id);
     store.dispatch(removeChannel({ id }));
   });
 };
