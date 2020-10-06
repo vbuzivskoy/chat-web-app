@@ -13,7 +13,6 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
 import routes from '../routes';
-import { updateChannel } from '../reducers/channels';
 import { hideEditChannelModal } from '../reducers/appUI';
 
 const mapStateToProps = (state) => {
@@ -23,7 +22,7 @@ const mapStateToProps = (state) => {
   return { isEditChannelModalShown, channelToBeEdited };
 };
 
-const actionCreators = { updateChannel, hideEditChannelModal };
+const actionCreators = { hideEditChannelModal };
 
 const createUpdatedChannelData = (channel) => ({
   data: {
@@ -45,7 +44,6 @@ const EditChannelModal = (props) => {
   const {
     isEditChannelModalShown,
     channelToBeEdited,
-    updateChannel,
     hideEditChannelModal,
   } = props;
 
@@ -53,9 +51,7 @@ const EditChannelModal = (props) => {
     const updatedChannelData = createUpdatedChannelData({ ...channelToBeEdited, ...values });
     const route = routes.channelPath(channelToBeEdited.id);
     try {
-      const response = await axios.patch(route, updatedChannelData);
-      const { data: { data: { attributes: channel } } } = response;
-      updateChannel({ channel });
+      await axios.patch(route, updatedChannelData);
       hideEditChannelModal();
     } catch (error) {
       setErrors({ submit: error.message });

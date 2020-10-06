@@ -7,7 +7,6 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
 import routes from '../routes';
-import { removeChannel } from '../reducers/channels';
 import { hideRemoveChannelModal } from '../reducers/appUI';
 
 const mapStateToProps = (state) => {
@@ -17,13 +16,12 @@ const mapStateToProps = (state) => {
   return { isRemoveChannelModalShown, channelToBeRemoved };
 };
 
-const actionCreators = { removeChannel, hideRemoveChannelModal };
+const actionCreators = { hideRemoveChannelModal };
 
 const RemoveChannelModal = (props) => {
   const {
     isRemoveChannelModalShown,
     channelToBeRemoved,
-    removeChannel,
     hideRemoveChannelModal,
   } = props;
 
@@ -33,7 +31,6 @@ const RemoveChannelModal = (props) => {
     const route = routes.channelPath(channelToBeRemoved.id);
     try {
       await axios.delete(route);
-      removeChannel({ id: channelToBeRemoved.id });
       hideRemoveChannelModal();
     } catch (error) {
       setSubmitError(error.message);
