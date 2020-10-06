@@ -18,11 +18,7 @@ const channelsSlice = createSlice({
     },
     removeChannel(state, action) {
       const { id: toBeRemoveChannelId } = action.payload;
-      const channel = state.find(({ id }) => id === toBeRemoveChannelId);
-      if (channel && channel.removable === true) {
-        return state.filter(({ id }) => id !== toBeRemoveChannelId);
-      }
-      return state;
+      return state.filter(({ id }) => id !== toBeRemoveChannelId);
     },
   },
 });
