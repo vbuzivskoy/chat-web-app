@@ -7,10 +7,7 @@ const messagesSlice = createSlice({
   reducers: {
     addMessage(state, action) {
       const { message } = action.payload;
-      const existedMessage = state.find(({ id }) => message.id === id);
-      if (!existedMessage) {
-        state.push(message);
-      }
+      state.push(message);
     },
   },
   extraReducers: {

@@ -8,15 +8,12 @@ import {
 import axios from 'axios';
 
 import routes from '../routes';
-import { addMessage } from '../reducers/messages';
 import UsernameContext from '../username-context';
 
 const mapStateToProps = (state) => {
   const { channels: { currentChannelId } } = state;
   return { currentChannelId };
 };
-
-const actionCreators = { addMessage };
 
 const createNewMessageData = (text, username) => ({
   data: {
@@ -38,7 +35,7 @@ const validate = ({ text }) => {
 };
 
 const AddMessageForm = (props) => {
-  const { currentChannelId, addMessage } = props;
+  const { currentChannelId } = props;
   const username = useContext(UsernameContext);
 
   return (
@@ -51,9 +48,7 @@ const AddMessageForm = (props) => {
         const newMessageData = createNewMessageData(text, username);
         const route = routes.channelMessagesPath(currentChannelId);
         try {
-          const response = await axios.post(route, newMessageData);
-          const { data: { data: { attributes: message } } } = response;
-          addMessage({ message });
+          await axios.post(route, newMessageData);
           resetForm({});
         } catch (error) {
           setErrors({ submit: error.message });
@@ -73,4 +68,4 @@ const AddMessageForm = (props) => {
   );
 };
 
-export default connect(mapStateToProps, actionCreators)(AddMessageForm);
+export default connect(mapStateToProps)(AddMessageForm);
