@@ -13,7 +13,7 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
 import routes from '../routes';
-import { addChannel, setCurrentChannelId } from '../reducers/channels';
+import { setCurrentChannelId } from '../reducers/channels';
 import { hideAddChannelModal } from '../reducers/appUI';
 
 const mapStateToProps = (state) => {
@@ -23,7 +23,7 @@ const mapStateToProps = (state) => {
   return { isAddChannelModalShown };
 };
 
-const actionCreators = { addChannel, hideAddChannelModal, setCurrentChannelId };
+const actionCreators = { hideAddChannelModal, setCurrentChannelId };
 
 const createNewChannelData = (name) => ({
   data: {
@@ -44,7 +44,6 @@ const validate = ({ name }) => {
 const AddChannelModal = (props) => {
   const {
     isAddChannelModalShown,
-    addChannel,
     hideAddChannelModal,
     setCurrentChannelId,
   } = props;
@@ -55,8 +54,7 @@ const AddChannelModal = (props) => {
     try {
       const response = await axios.post(route, newChannelData);
       const { data: { data: { attributes: channel } } } = response;
-      addChannel({ channel });
-      setCurrentChannelId({ currentChannelId: channel.id });
+      setCurrentChannelId({ currentChannelId: channel.id }); // I don't know yet how to make shure that new channel already added to store!!!
       hideAddChannelModal();
     } catch (error) {
       setErrors({ submit: error.message });

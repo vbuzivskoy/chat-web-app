@@ -11,10 +11,7 @@ const channelsSlice = createSlice({
   reducers: {
     addChannel(state, action) {
       const { channel } = action.payload;
-      const existedChannel = state.chatChannels.find(({ id }) => channel.id === id);
-      if (!existedChannel) {
-        state.chatChannels.push(channel);
-      }
+      state.chatChannels.push(channel);
     },
     updateChannel(state, action) {
       const { channel } = action.payload;
