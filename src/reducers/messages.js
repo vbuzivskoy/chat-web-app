@@ -6,7 +6,6 @@ const messagesSlice = createSlice({
   initialState: [],
   reducers: {
     addMessage(state, action) {
-      console.log(action);
       const { message } = action.payload;
       const existedMessage = state.find(({ id }) => message.id === id);
       if (!existedMessage) {
