@@ -9,22 +9,22 @@ import { setCurrentChannelId } from '../reducers/channels';
 import { showRemoveChannelModal, showEditChannelModal } from '../reducers/appUI';
 
 const mapStateToProps = (state) => {
-  const { channels, currentChannelId } = state;
-  return { channels, currentChannelId };
+  const { channels: { chatChannels, currentChannelId } } = state;
+  return { chatChannels, currentChannelId };
 };
 
 const actionCreators = { setCurrentChannelId, showRemoveChannelModal, showEditChannelModal };
 
 const Channels = (props) => {
   const {
-    channels,
+    chatChannels,
     currentChannelId,
     setCurrentChannelId,
     showRemoveChannelModal,
     showEditChannelModal,
   } = props;
 
-  if (channels.length === 0) {
+  if (chatChannels.length === 0) {
     return null;
   }
 
@@ -40,7 +40,7 @@ const Channels = (props) => {
 
   return (
     <ListGroup>
-      {channels.map((channel) => {
+      {chatChannels.map((channel) => {
         const { id, name, removable } = channel;
         const channelButtonVariant = id === currentChannelId ? 'primary' : 'link';
 

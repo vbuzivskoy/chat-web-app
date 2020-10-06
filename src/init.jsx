@@ -42,7 +42,13 @@ export default () => {
 
   const store = configureStore({
     reducer: rootReducer,
-    preloadedState: gon,
+    preloadedState: {
+      channels: {
+        chatChannels: gon.channels,
+        currentChannelId: gon.currentChannelId,
+      },
+      messages: gon.messages,
+    },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(rollbarRedux),
   });
 

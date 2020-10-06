@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { createSelector } from '@reduxjs/toolkit';
 
 const getMessages = (state) => state.messages;
-const getCurrentChannelId = (state) => state.currentChannelId;
+const getCurrentChannelId = (state) => state.channels.currentChannelId;
 
 const messagesSelector = createSelector(
   getMessages,

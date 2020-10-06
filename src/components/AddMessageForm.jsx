@@ -12,7 +12,7 @@ import { addMessage } from '../reducers/messages';
 import UsernameContext from '../username-context';
 
 const mapStateToProps = (state) => {
-  const { currentChannelId } = state;
+  const { channels: { currentChannelId } } = state;
   return { currentChannelId };
 };
 

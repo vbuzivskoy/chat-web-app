@@ -4,45 +4,40 @@ const defaultChannelId = 1;
 
 const channelsSlice = createSlice({
   name: 'channels',
-  initialState: [],
+  initialState: {
+    chatChannels: [],
+    currentChannelId: defaultChannelId,
+  },
   reducers: {
     addChannel(state, action) {
       const { channel } = action.payload;
-      const existedChannel = state.find(({ id }) => channel.id === id);
+      const existedChannel = state.chatChannels.find(({ id }) => channel.id === id);
       if (!existedChannel) {
-        state.push(channel);
+        state.chatChannels.push(channel);
       }
     },
     updateChannel(state, action) {
       const { channel } = action.payload;
-      const channelToBeEditedIndex = state.findIndex(({ id }) => id === channel.id);
-      state[channelToBeEditedIndex] = channel;
+      const channelToBeEditedIndex = state.chatChannels.findIndex(({ id }) => id === channel.id);
+      state.chatChannels[channelToBeEditedIndex] = channel;
     },
     removeChannel(state, action) {
       const { id: toBeRemoveChannelId } = action.payload;
-      return state.filter(({ id }) => id !== toBeRemoveChannelId);
+      state.chatChannels = state.chatChannels.filter(({ id }) => id !== toBeRemoveChannelId);
+      state.currentChannelId = state.currentChannelId === toBeRemoveChannelId
+        ? defaultChannelId
+        : state.currentChannelId;
     },
-  },
-});
-
-export const { addChannel, removeChannel, updateChannel } = channelsSlice.actions;
-export const channelsReducer = channelsSlice.reducer;
-
-const currentChannelId = createSlice({
-  name: 'currentChannelId',
-  initialState: defaultChannelId,
-  reducers: {
     setCurrentChannelId(state, action) {
-      return action.payload.currentChannelId;
-    },
-  },
-  extraReducers: {
-    [removeChannel]: (state, action) => {
-      const { id } = action.payload;
-      return state === id ? defaultChannelId : state;
+      state.currentChannelId = action.payload.currentChannelId;
     },
   },
 });
 
-export const { setCurrentChannelId } = currentChannelId.actions;
-export const currentChannelIdReducer = currentChannelId.reducer;
+export const {
+  addChannel,
+  removeChannel,
+  updateChannel,
+  setCurrentChannelId,
+} = channelsSlice.actions;
+export default channelsSlice.reducer;
