@@ -7,20 +7,30 @@ import { PlusCircle } from 'react-bootstrap-icons';
 
 import Channels from './Channels';
 import Messages from './Messages';
+import getModal from './modals';
 import AddMessageForm from './AddMessageForm';
-import AddChannelModal from './AddChannelModal';
-import RemoveChannelModal from './RemoveChannelModal';
-import EditChannelModal from './EditChannelModal';
-import { showAddChannelModal } from '../reducers/appUI';
+import { setModalInfo } from '../reducers/appUI';
 
-const actionCreators = { showAddChannelModal };
+const mapStateToProps = (state) => {
+  const { appUI: { modalInfo } } = state;
+  return { modalInfo };
+};
+
+const actionCreators = { setModalInfo };
+
+const renderModal = ({ modalInfo, hideModal }) => {
+  if (!modalInfo.type) {
+    return null;
+  }
+
+  const ModalComponent = getModal(modalInfo.type);
+  return <ModalComponent channel={modalInfo.channel} onHide={hideModal} />;
+};
 
 const App = (props) => {
-  const { showAddChannelModal } = props;
+  const { modalInfo, setModalInfo } = props;
 
-  const showNewCannelModalHandler = () => {
-    showAddChannelModal();
-  };
+  const hideModal = () => setModalInfo({ modalInfo: { type: null, channel: null } });
 
   return (
     <>
@@ -32,7 +42,7 @@ const App = (props) => {
               className="ml-auto p-0"
               size="sm"
               variant="link"
-              onClick={showNewCannelModalHandler}
+              onClick={() => setModalInfo({ modalInfo: { type: 'adding', channel: null } })}
             >
               <PlusCircle />
             </Button>
@@ -50,11 +60,9 @@ const App = (props) => {
           </div>
         </Col>
       </Row>
-      <AddChannelModal />
-      <RemoveChannelModal />
-      <EditChannelModal />
+      {renderModal({ modalInfo, hideModal })}
     </>
   );
 };
 
-export default connect(null, actionCreators)(App);
+export default connect(mapStateToProps, actionCreators)(App);

@@ -7,54 +7,35 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
 import routes from '../routes';
-import { hideRemoveChannelModal } from '../reducers/appUI';
-
-const mapStateToProps = (state) => {
-  const {
-    appUI: { isRemoveChannelModalShown, channelToBeRemoved },
-  } = state;
-  return { isRemoveChannelModalShown, channelToBeRemoved };
-};
-
-const actionCreators = { hideRemoveChannelModal };
 
 const RemoveChannelModal = (props) => {
   const {
-    isRemoveChannelModalShown,
-    channelToBeRemoved,
-    hideRemoveChannelModal,
+    channel,
+    onHide,
   } = props;
 
   const [submitError, setSubmitError] = useState('');
 
   const removerChannelHandler = async () => {
-    const route = routes.channelPath(channelToBeRemoved.id);
+    const route = routes.channelPath(channel.id);
     try {
       await axios.delete(route);
-      hideRemoveChannelModal();
+      onHide();
     } catch (error) {
       setSubmitError(error.message);
     }
   };
 
-  const hideRemoveChannelModalHandler = () => {
-    hideRemoveChannelModal();
-  };
-
-  if (!isRemoveChannelModalShown) {
-    return null;
-  }
-
   return (
     <Modal
-      show={isRemoveChannelModalShown}
-      onHide={hideRemoveChannelModalHandler}
+      show
+      onHide={onHide}
       centered
     >
       <Modal.Header closeButton>
         <Modal.Title>
           Confirm to remove channel &quot;
-          {channelToBeRemoved.name}
+          {channel.name}
           &quot;
         </Modal.Title>
       </Modal.Header>
@@ -66,7 +47,7 @@ const RemoveChannelModal = (props) => {
       )}
 
       <Modal.Footer>
-        <Button variant="secondary" onClick={hideRemoveChannelModalHandler}>
+        <Button variant="secondary" onClick={onHide}>
           Cancel
         </Button>
         <Button variant="warning" onClick={removerChannelHandler}>Remove</Button>
@@ -75,4 +56,4 @@ const RemoveChannelModal = (props) => {
   );
 };
 
-export default connect(mapStateToProps, actionCreators)(RemoveChannelModal);
+export default connect(null)(RemoveChannelModal);

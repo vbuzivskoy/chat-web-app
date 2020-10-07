@@ -13,16 +13,6 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
 import routes from '../routes';
-import { hideEditChannelModal } from '../reducers/appUI';
-
-const mapStateToProps = (state) => {
-  const {
-    appUI: { isEditChannelModalShown, channelToBeEdited },
-  } = state;
-  return { isEditChannelModalShown, channelToBeEdited };
-};
-
-const actionCreators = { hideEditChannelModal };
 
 const createUpdatedChannelData = (channel) => ({
   data: {
@@ -42,41 +32,32 @@ const validate = ({ name }) => {
 
 const EditChannelModal = (props) => {
   const {
-    isEditChannelModalShown,
-    channelToBeEdited,
-    hideEditChannelModal,
+    onHide,
+    channel,
   } = props;
 
   const onEditChannelHandler = async (values, { setErrors }) => {
-    const updatedChannelData = createUpdatedChannelData({ ...channelToBeEdited, ...values });
-    const route = routes.channelPath(channelToBeEdited.id);
+    const updatedChannelData = createUpdatedChannelData({ ...channel, ...values });
+    const route = routes.channelPath(channel.id);
     try {
       await axios.patch(route, updatedChannelData);
-      hideEditChannelModal();
+      onHide();
     } catch (error) {
       setErrors({ submit: error.message });
     }
   };
 
-  const hideEditChannelModalHandler = () => {
-    hideEditChannelModal();
-  };
-
-  if (!isEditChannelModalShown) {
-    return null;
-  }
-
   return (
     <Modal
-      show={isEditChannelModalShown}
-      onHide={hideEditChannelModalHandler}
+      show
+      onHide={onHide}
       animation={false}
       restoreFocus
       centered
     >
       <Formik
         initialValues={{
-          name: channelToBeEdited.name,
+          name: channel.name,
         }}
         validate={validate}
         onSubmit={onEditChannelHandler}
@@ -105,7 +86,7 @@ const EditChannelModal = (props) => {
             </Modal.Body>
 
             <Modal.Footer>
-              <Button variant="secondary" onClick={hideEditChannelModalHandler}>
+              <Button variant="secondary" onClick={onHide}>
                 Cancel
               </Button>
               <Button variant="primary" type="submit">Save</Button>
@@ -117,4 +98,4 @@ const EditChannelModal = (props) => {
   );
 };
 
-export default connect(mapStateToProps, actionCreators)(EditChannelModal);
+export default connect(null)(EditChannelModal);

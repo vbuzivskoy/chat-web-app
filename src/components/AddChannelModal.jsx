@@ -14,16 +14,8 @@ import Button from 'react-bootstrap/Button';
 
 import routes from '../routes';
 import { setCurrentChannelId } from '../reducers/channels';
-import { hideAddChannelModal } from '../reducers/appUI';
 
-const mapStateToProps = (state) => {
-  const {
-    appUI: { isAddChannelModalShown },
-  } = state;
-  return { isAddChannelModalShown };
-};
-
-const actionCreators = { hideAddChannelModal, setCurrentChannelId };
+const actionCreators = { setCurrentChannelId };
 
 const createNewChannelData = (name) => ({
   data: {
@@ -43,8 +35,7 @@ const validate = ({ name }) => {
 
 const AddChannelModal = (props) => {
   const {
-    isAddChannelModalShown,
-    hideAddChannelModal,
+    onHide,
     setCurrentChannelId,
   } = props;
 
@@ -55,20 +46,16 @@ const AddChannelModal = (props) => {
       const response = await axios.post(route, newChannelData);
       const { data: { data: { attributes: channel } } } = response;
       setCurrentChannelId({ currentChannelId: channel.id }); // I don't know yet how to make shure that new channel already added to store!!!
-      hideAddChannelModal();
+      onHide();
     } catch (error) {
       setErrors({ submit: error.message });
     }
   };
 
-  const hideAddChannelModalHandler = () => {
-    hideAddChannelModal();
-  };
-
   return (
     <Modal
-      show={isAddChannelModalShown}
-      onHide={hideAddChannelModalHandler}
+      show
+      onHide={onHide}
       animation={false}
       restoreFocus
       centered
@@ -104,7 +91,7 @@ const AddChannelModal = (props) => {
             </Modal.Body>
 
             <Modal.Footer>
-              <Button variant="secondary" onClick={hideAddChannelModalHandler}>
+              <Button variant="secondary" onClick={onHide}>
                 Cancel
               </Button>
               <Button variant="primary" type="submit">Save</Button>
@@ -116,4 +103,4 @@ const AddChannelModal = (props) => {
   );
 };
 
-export default connect(mapStateToProps, actionCreators)(AddChannelModal);
+export default connect(null, actionCreators)(AddChannelModal);

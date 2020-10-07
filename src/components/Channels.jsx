@@ -6,22 +6,21 @@ import { XCircle, Pencil } from 'react-bootstrap-icons';
 import { ListGroup, Button } from 'react-bootstrap';
 
 import { setCurrentChannelId } from '../reducers/channels';
-import { showRemoveChannelModal, showEditChannelModal } from '../reducers/appUI';
+import { setModalInfo } from '../reducers/appUI';
 
 const mapStateToProps = (state) => {
   const { channels: { chatChannels, currentChannelId } } = state;
   return { chatChannels, currentChannelId };
 };
 
-const actionCreators = { setCurrentChannelId, showRemoveChannelModal, showEditChannelModal };
+const actionCreators = { setCurrentChannelId, setModalInfo };
 
 const Channels = (props) => {
   const {
     chatChannels,
     currentChannelId,
     setCurrentChannelId,
-    showRemoveChannelModal,
-    showEditChannelModal,
+    setModalInfo,
   } = props;
 
   if (chatChannels.length === 0) {
@@ -29,14 +28,6 @@ const Channels = (props) => {
   }
 
   const getCurrentChannelIdHandler = (id) => () => setCurrentChannelId({ currentChannelId: id });
-
-  const getRemoveChannelHandler = (channel) => () => {
-    showRemoveChannelModal({ channel });
-  };
-
-  const getEditChannelHandler = (channel) => () => {
-    showEditChannelModal({ channel });
-  };
 
   return (
     <ListGroup>
@@ -58,7 +49,7 @@ const Channels = (props) => {
                 variant="link"
                 className="float-right"
                 size="sm"
-                onClick={getEditChannelHandler(channel)}
+                onClick={() => setModalInfo({ modalInfo: { type: 'editing', channel } })}
               >
                 <Pencil />
               </Button>
@@ -68,7 +59,7 @@ const Channels = (props) => {
                 variant="link"
                 className="float-right"
                 size="sm"
-                onClick={getRemoveChannelHandler(channel)}
+                onClick={() => setModalInfo({ modalInfo: { type: 'removing', channel } })}
               >
                 <XCircle />
               </Button>
