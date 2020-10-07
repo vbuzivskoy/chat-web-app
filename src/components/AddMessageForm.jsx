@@ -1,7 +1,5 @@
-/* eslint-disable no-shadow */
-
 import React, { useContext } from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
   Formik, Field, Form, ErrorMessage,
 } from 'formik';
@@ -9,11 +7,6 @@ import axios from 'axios';
 
 import routes from '../routes';
 import UsernameContext from '../username-context';
-
-const mapStateToProps = (state) => {
-  const { channels: { currentChannelId } } = state;
-  return { currentChannelId };
-};
 
 const createNewMessageData = (text, username) => ({
   data: {
@@ -34,8 +27,8 @@ const validate = ({ text }) => {
   return errors;
 };
 
-const AddMessageForm = (props) => {
-  const { currentChannelId } = props;
+const AddMessageForm = () => {
+  const currentChannelId = useSelector((state) => state.channels.currentChannelId);
   const username = useContext(UsernameContext);
 
   return (
@@ -68,4 +61,4 @@ const AddMessageForm = (props) => {
   );
 };
 
-export default connect(mapStateToProps)(AddMessageForm);
+export default AddMessageForm;

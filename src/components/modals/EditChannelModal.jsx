@@ -1,7 +1,6 @@
-/* eslint-disable no-shadow, jsx-a11y/label-has-associated-control */
+/* eslint-disable jsx-a11y/label-has-associated-control */
 
 import React from 'react';
-import { connect } from 'react-redux';
 import {
   Formik,
   Field,
@@ -12,7 +11,7 @@ import axios from 'axios';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
-import routes from '../routes';
+import routes from '../../routes';
 
 const createUpdatedChannelData = (channel) => ({
   data: {
@@ -31,10 +30,7 @@ const validate = ({ name }) => {
 };
 
 const EditChannelModal = (props) => {
-  const {
-    onHide,
-    channel,
-  } = props;
+  const { onHide, channel } = props;
 
   const onEditChannelHandler = async (values, { setErrors }) => {
     const updatedChannelData = createUpdatedChannelData({ ...channel, ...values });
@@ -98,4 +94,4 @@ const EditChannelModal = (props) => {
   );
 };
 
-export default connect(null)(EditChannelModal);
+export default EditChannelModal;

@@ -1,19 +1,14 @@
 /* eslint-disable no-shadow */
 
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
 import axios from 'axios';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
-import routes from '../routes';
+import routes from '../../routes';
 
 const RemoveChannelModal = (props) => {
-  const {
-    channel,
-    onHide,
-  } = props;
-
+  const { channel, onHide } = props;
   const [submitError, setSubmitError] = useState('');
 
   const removerChannelHandler = async () => {
@@ -56,4 +51,4 @@ const RemoveChannelModal = (props) => {
   );
 };
 
-export default connect(null)(RemoveChannelModal);
+export default RemoveChannelModal;

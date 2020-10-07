@@ -1,33 +1,23 @@
-/* eslint-disable no-shadow */
-
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { XCircle, Pencil } from 'react-bootstrap-icons';
 import { ListGroup, Button } from 'react-bootstrap';
 
 import { setCurrentChannelId } from '../reducers/channels';
 import { setModalInfo } from '../reducers/appUI';
 
-const mapStateToProps = (state) => {
-  const { channels: { chatChannels, currentChannelId } } = state;
-  return { chatChannels, currentChannelId };
-};
-
-const actionCreators = { setCurrentChannelId, setModalInfo };
-
-const Channels = (props) => {
-  const {
-    chatChannels,
-    currentChannelId,
-    setCurrentChannelId,
-    setModalInfo,
-  } = props;
+const Channels = () => {
+  const chatChannels = useSelector((state) => state.channels.chatChannels);
+  const currentChannelId = useSelector((state) => state.channels.currentChannelId);
+  const dispatch = useDispatch();
 
   if (chatChannels.length === 0) {
     return null;
   }
 
-  const getCurrentChannelIdHandler = (id) => () => setCurrentChannelId({ currentChannelId: id });
+  const getCurrentChannelIdHandler = (id) => () => (
+    dispatch(setCurrentChannelId({ currentChannelId: id }))
+  );
 
   return (
     <ListGroup>
@@ -49,7 +39,7 @@ const Channels = (props) => {
                 variant="link"
                 className="float-right"
                 size="sm"
-                onClick={() => setModalInfo({ modalInfo: { type: 'editing', channel } })}
+                onClick={() => dispatch(setModalInfo({ modalInfo: { type: 'editing', channel } }))}
               >
                 <Pencil />
               </Button>
@@ -59,7 +49,7 @@ const Channels = (props) => {
                 variant="link"
                 className="float-right"
                 size="sm"
-                onClick={() => setModalInfo({ modalInfo: { type: 'removing', channel } })}
+                onClick={() => dispatch(setModalInfo({ modalInfo: { type: 'removing', channel } }))}
               >
                 <XCircle />
               </Button>
@@ -71,4 +61,4 @@ const Channels = (props) => {
   );
 };
 
-export default connect(mapStateToProps, actionCreators)(Channels);
+export default Channels;

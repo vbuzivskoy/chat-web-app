@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { createSelector } from '@reduxjs/toolkit';
 
 const getMessages = (state) => state.messages;
@@ -15,10 +15,9 @@ const messagesSelector = createSelector(
   ),
 );
 
-const mapStateToProps = (state) => ({ messages: messagesSelector(state) });
+const Messages = () => {
+  const messages = useSelector(messagesSelector);
 
-const Messages = (props) => {
-  const { messages } = props;
   if (messages.length === 0) {
     return null;
   }
@@ -34,4 +33,4 @@ const Messages = (props) => {
   );
 };
 
-export default connect(mapStateToProps)(Messages);
+export default Messages;

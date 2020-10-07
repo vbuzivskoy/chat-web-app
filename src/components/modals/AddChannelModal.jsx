@@ -1,7 +1,7 @@
-/* eslint-disable no-shadow, jsx-a11y/label-has-associated-control */
+/* eslint-disable jsx-a11y/label-has-associated-control */
 
 import React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
   Formik,
   Field,
@@ -12,10 +12,8 @@ import axios from 'axios';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
-import routes from '../routes';
-import { setCurrentChannelId } from '../reducers/channels';
-
-const actionCreators = { setCurrentChannelId };
+import routes from '../../routes';
+import { setCurrentChannelId } from '../../reducers/channels';
 
 const createNewChannelData = (name) => ({
   data: {
@@ -34,10 +32,8 @@ const validate = ({ name }) => {
 };
 
 const AddChannelModal = (props) => {
-  const {
-    onHide,
-    setCurrentChannelId,
-  } = props;
+  const { onHide } = props;
+  const dispatch = useDispatch();
 
   const onAddChannelHandler = async ({ name }, { setErrors }) => {
     const newChannelData = createNewChannelData(name);
@@ -45,7 +41,8 @@ const AddChannelModal = (props) => {
     try {
       const response = await axios.post(route, newChannelData);
       const { data: { data: { attributes: channel } } } = response;
-      setCurrentChannelId({ currentChannelId: channel.id }); // I don't know yet how to make shure that new channel already added to store!!!
+      // I don't know yet how to make shure that the new channel is already added to store!!!
+      dispatch(setCurrentChannelId({ currentChannelId: channel.id }));
       onHide();
     } catch (error) {
       setErrors({ submit: error.message });
@@ -103,4 +100,4 @@ const AddChannelModal = (props) => {
   );
 };
 
-export default connect(null, actionCreators)(AddChannelModal);
+export default AddChannelModal;
