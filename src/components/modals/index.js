@@ -1,6 +1,6 @@
-import AddChannelModal from '../AddChannelModal';
-import EditChannelModal from '../EditChannelModal';
-import RemoveChannelModal from '../RemoveChannelModal';
+import AddChannelModal from './AddChannelModal';
+import EditChannelModal from './EditChannelModal';
+import RemoveChannelModal from './RemoveChannelModal';
 
 const mapModalTypeToComponent = {
   adding: AddChannelModal,
