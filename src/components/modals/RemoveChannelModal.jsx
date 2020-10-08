@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import i18n from 'i18next';
 
 import routes from '../../routes';
 
@@ -29,9 +30,7 @@ const RemoveChannelModal = (props) => {
     >
       <Modal.Header closeButton>
         <Modal.Title>
-          Confirm to remove channel &quot;
-          {channel.name}
-          &quot;
+          {i18n.t('removeChannelModal.title', { channelName: channel.name })}
         </Modal.Title>
       </Modal.Header>
 
@@ -43,9 +42,9 @@ const RemoveChannelModal = (props) => {
 
       <Modal.Footer>
         <Button variant="secondary" onClick={onHide}>
-          Cancel
+          {i18n.t('cancelButtonText')}
         </Button>
-        <Button variant="warning" onClick={removerChannelHandler}>Remove</Button>
+        <Button variant="warning" onClick={removerChannelHandler}>{i18n.t('removeButtonText')}</Button>
       </Modal.Footer>
     </Modal>
   );

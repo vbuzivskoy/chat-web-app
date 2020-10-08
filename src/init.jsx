@@ -14,13 +14,16 @@ import Cookies from 'js-cookie';
 import io from 'socket.io-client';
 import Rollbar from 'rollbar';
 import rollbarMiddleware from 'rollbar-redux-middleware';
+import i18n from 'i18next';
+import LanguageDetector from 'i18next-browser-languagedetector';
 
 import rootReducer from './reducers';
 import App from './components/App';
 import UsernameContext from './username-context';
 import listenSockets from './sockets';
+import translations from './locales';
 
-export default () => {
+export default async () => {
   const nodeEnv = process.env.NODE_ENV;
 
   if (nodeEnv !== 'production') {
@@ -39,6 +42,11 @@ export default () => {
   const currentUsername = currentUsernameCooky
     || faker.fake('{{name.lastName}}_{{name.firstName}}{{random.number}}');
   Cookies.set('username', currentUsername);
+
+  await i18n.use(LanguageDetector)
+    .init({
+      resources: translations,
+    });
 
   const store = configureStore({
     reducer: rootReducer,

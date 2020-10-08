@@ -10,6 +10,7 @@ import {
 import axios from 'axios';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import i18n from 'i18next';
 
 import routes from '../../routes';
 
@@ -61,11 +62,11 @@ const EditChannelModal = (props) => {
         {({ errors }) => (
           <Form>
             <Modal.Header closeButton>
-              <Modal.Title>Edit channel</Modal.Title>
+              <Modal.Title>{i18n.t('editChannelModal.title')}</Modal.Title>
             </Modal.Header>
 
             <Modal.Body>
-              <label htmlFor="name">Channel name</label>
+              <label htmlFor="name">{i18n.t('channelNameLable')}</label>
               <Field
                 name="name"
                 className="form-control"
@@ -83,9 +84,9 @@ const EditChannelModal = (props) => {
 
             <Modal.Footer>
               <Button variant="secondary" onClick={onHide}>
-                Cancel
+                {i18n.t('cancelButtonText')}
               </Button>
-              <Button variant="primary" type="submit">Save</Button>
+              <Button variant="primary" type="submit">{i18n.t('saveButtonText')}</Button>
             </Modal.Footer>
           </Form>
         )}

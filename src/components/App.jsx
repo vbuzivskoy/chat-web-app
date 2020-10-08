@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, Row, Col } from 'react-bootstrap';
 import { PlusCircle } from 'react-bootstrap-icons';
+import i18n from 'i18next';
 
 import Channels from './Channels';
 import Messages from './Messages';
@@ -29,7 +30,7 @@ const App = () => {
       <Row className="h-100">
         <Col xs lg="3" className="border-right">
           <div className="d-flex mb-2">
-            <span>Channels</span>
+            <span>{i18n.t('channelsListTitle')}</span>
             <Button
               className="ml-auto p-0"
               size="sm"
