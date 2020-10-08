@@ -20,6 +20,7 @@ export default {
     errors: {
       epmtyMessage: 'To send a message type something first',
       emptyChannelName: 'New channel must have a name',
+      minMaxChannelNameLength: 'The name must be 3 to 20 characters length',
       networkError: 'Network error',
     },
   },

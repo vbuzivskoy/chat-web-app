@@ -7,6 +7,7 @@ import {
   Form,
   ErrorMessage,
 } from 'formik';
+import * as yup from 'yup';
 import axios from 'axios';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
@@ -21,17 +22,15 @@ const createUpdatedChannelData = (channel) => ({
   },
 });
 
-const validate = ({ name }) => {
-  const errors = {};
-
-  if (!name) {
-    errors.name = 'Channel must have a name';
-  }
-  return errors;
-};
-
 const EditChannelModal = (props) => {
   const { onHide, channel } = props;
+
+  const validationSchema = yup.object().shape({
+    name: yup.string()
+      .min(3, i18n.t('errors.minMaxChannelNameLength'))
+      .max(20, i18n.t('errors.minMaxChannelNameLength'))
+      .required(i18n.t('errors.emptyChannelName')),
+  });
 
   const onEditChannelHandler = async (values, { setErrors }) => {
     const updatedChannelData = createUpdatedChannelData({ ...channel, ...values });
@@ -56,7 +55,7 @@ const EditChannelModal = (props) => {
         initialValues={{
           name: channel.name,
         }}
-        validate={validate}
+        validationSchema={validationSchema}
         onSubmit={onEditChannelHandler}
       >
         {({ errors }) => (

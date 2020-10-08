@@ -20,6 +20,7 @@ export default {
     errors: {
       epmtyMessage: 'Сначала напишите что-нибудь',
       emptyChannelName: 'У нового канала должно быть название',
+      minMaxChannelNameLength: 'Название должно содержать от 3 до 20 символов',
       networkError: 'Ошибка сети',
     },
   },

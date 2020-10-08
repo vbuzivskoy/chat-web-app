@@ -3,7 +3,9 @@ import { useSelector } from 'react-redux';
 import {
   Formik, Field, Form, ErrorMessage,
 } from 'formik';
+import * as yup from 'yup';
 import axios from 'axios';
+import i18n from 'i18next';
 
 import routes from '../routes';
 import UsernameContext from '../username-context';
@@ -18,25 +20,21 @@ const createNewMessageData = (text, username) => ({
   },
 });
 
-const validate = ({ text }) => {
-  const errors = {};
-
-  if (!text) {
-    errors.text = 'To send a message type something first';
-  }
-  return errors;
-};
-
 const AddMessageForm = () => {
   const currentChannelId = useSelector((state) => state.channels.currentChannelId);
   const username = useContext(UsernameContext);
+
+  const validationSchema = yup.object().shape({
+    text: yup.string()
+      .required(i18n.t('errors.epmtyMessage')),
+  });
 
   return (
     <Formik
       initialValues={{
         text: '',
       }}
-      validate={validate}
+      validationSchema={validationSchema}
       onSubmit={async ({ text }, { resetForm, setErrors }) => {
         const newMessageData = createNewMessageData(text, username);
         const route = routes.channelMessagesPath(currentChannelId);
@@ -44,7 +42,7 @@ const AddMessageForm = () => {
           await axios.post(route, newMessageData);
           resetForm({});
         } catch (error) {
-          setErrors({ submit: error.message });
+          setErrors({ submit: i18n.t('errors.networkError') });
         }
       }}
     >

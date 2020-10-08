@@ -45,7 +45,9 @@ export default async () => {
 
   await i18n.use(LanguageDetector)
     .init({
+      fallbackLng: 'en',
       resources: translations,
+      load: 'languageOnly',
     });
 
   const store = configureStore({

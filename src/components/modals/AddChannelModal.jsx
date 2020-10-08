@@ -8,6 +8,7 @@ import {
   Form,
   ErrorMessage,
 } from 'formik';
+import * as yup from 'yup';
 import axios from 'axios';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
@@ -23,18 +24,16 @@ const createNewChannelData = (name) => ({
   },
 });
 
-const validate = ({ name }) => {
-  const errors = {};
-
-  if (!name) {
-    errors.name = 'New channel must have a name';
-  }
-  return errors;
-};
-
 const AddChannelModal = (props) => {
   const { onHide } = props;
   const dispatch = useDispatch();
+
+  const validationSchema = yup.object().shape({
+    name: yup.string()
+      .min(3, i18n.t('errors.minMaxChannelNameLength'))
+      .max(20, i18n.t('errors.minMaxChannelNameLength'))
+      .required(i18n.t('errors.emptyChannelName')),
+  });
 
   const onAddChannelHandler = async ({ name }, { setErrors }) => {
     const newChannelData = createNewChannelData(name);
@@ -46,7 +45,7 @@ const AddChannelModal = (props) => {
       dispatch(setCurrentChannelId({ currentChannelId: channel.id }));
       onHide();
     } catch (error) {
-      setErrors({ submit: error.message });
+      setErrors({ submit: i18n.t('errors.networkError') });
     }
   };
 
@@ -62,7 +61,7 @@ const AddChannelModal = (props) => {
         initialValues={{
           name: '',
         }}
-        validate={validate}
+        validationSchema={validationSchema}
         onSubmit={onAddChannelHandler}
       >
         {({ errors }) => (
