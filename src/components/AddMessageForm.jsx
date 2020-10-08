@@ -48,7 +48,17 @@ const AddMessageForm = () => {
     >
       {({ errors }) => (
         <Form>
-          <Field name="text" className="form-control" autoComplete="off" autoFocus />
+          <Field name="text">
+            {({ field, form: { isSubmitting } }) => (
+              <input
+                className="form-control"
+                {...field}
+                disabled={isSubmitting}
+                type="text"
+                autoComplete="off"
+              />
+            )}
+          </Field>
           <ErrorMessage name="text">
             {(msg) => <div className="invalid-feedback d-block">{msg}</div>}
           </ErrorMessage>
