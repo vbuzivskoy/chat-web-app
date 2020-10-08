@@ -58,7 +58,9 @@ const EditChannelModal = (props) => {
         validationSchema={validationSchema}
         onSubmit={onEditChannelHandler}
       >
-        {({ errors }) => (
+        {({
+          errors, isSubmitting, isValid, dirty,
+        }) => (
           <Form>
             <Modal.Header closeButton>
               <Modal.Title>{i18n.t('editChannelModal.title')}</Modal.Title>
@@ -72,6 +74,7 @@ const EditChannelModal = (props) => {
                 autoComplete="off"
                 autoFocus
                 onFocus={(e) => e.currentTarget.select()}
+                disabled={isSubmitting}
               />
               <ErrorMessage name="name">
                 {(msg) => <div className="invalid-feedback d-block">{msg}</div>}
@@ -85,7 +88,13 @@ const EditChannelModal = (props) => {
               <Button variant="secondary" onClick={onHide}>
                 {i18n.t('cancelButtonText')}
               </Button>
-              <Button variant="primary" type="submit">{i18n.t('saveButtonText')}</Button>
+              <Button
+                variant="primary"
+                type="submit"
+                disabled={isSubmitting || !isValid || !dirty}
+              >
+                {i18n.t('saveButtonText')}
+              </Button>
             </Modal.Footer>
           </Form>
         )}

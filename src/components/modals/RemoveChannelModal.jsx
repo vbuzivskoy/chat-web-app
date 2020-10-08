@@ -11,14 +11,17 @@ import routes from '../../routes';
 const RemoveChannelModal = (props) => {
   const { channel, onHide } = props;
   const [submitError, setSubmitError] = useState('');
+  const [isSubmitting, setSubmitting] = useState(false);
 
   const removerChannelHandler = async () => {
+    setSubmitting(true);
     const route = routes.channelPath(channel.id);
     try {
       await axios.delete(route);
       onHide();
     } catch (error) {
       setSubmitError(error.message);
+      setSubmitting(false);
     }
   };
 
@@ -44,7 +47,13 @@ const RemoveChannelModal = (props) => {
         <Button variant="secondary" onClick={onHide}>
           {i18n.t('cancelButtonText')}
         </Button>
-        <Button variant="warning" onClick={removerChannelHandler}>{i18n.t('removeButtonText')}</Button>
+        <Button
+          variant="warning"
+          onClick={removerChannelHandler}
+          disabled={isSubmitting}
+        >
+          {i18n.t('removeButtonText')}
+        </Button>
       </Modal.Footer>
     </Modal>
   );

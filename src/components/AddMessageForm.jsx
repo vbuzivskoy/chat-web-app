@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { useSelector } from 'react-redux';
+import Button from 'react-bootstrap/Button';
 import {
   Formik, Field, Form, ErrorMessage,
 } from 'formik';
@@ -46,19 +47,23 @@ const AddMessageForm = () => {
         }
       }}
     >
-      {({ errors }) => (
+      {({
+        errors, isSubmitting, isValid, dirty,
+      }) => (
         <Form>
-          <Field name="text">
-            {({ field, form: { isSubmitting } }) => (
-              <input
-                className="form-control"
-                {...field}
-                disabled={isSubmitting}
-                type="text"
-                autoComplete="off"
-              />
-            )}
-          </Field>
+          <div className="input-group mb-3">
+            <Field name="text" className="form-control" autoComplete="off" autoFocus disabled={isSubmitting} />
+            <div className="input-group-append">
+              <Button
+                className="input-group-append"
+                variant="primary"
+                type="submit"
+                disabled={isSubmitting || !isValid || !dirty}
+              >
+                Send
+              </Button>
+            </div>
+          </div>
           <ErrorMessage name="text">
             {(msg) => <div className="invalid-feedback d-block">{msg}</div>}
           </ErrorMessage>

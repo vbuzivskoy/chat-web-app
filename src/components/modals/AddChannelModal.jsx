@@ -64,7 +64,9 @@ const AddChannelModal = (props) => {
         validationSchema={validationSchema}
         onSubmit={onAddChannelHandler}
       >
-        {({ errors }) => (
+        {({
+          errors, isSubmitting, isValid, dirty,
+        }) => (
           <Form>
             <Modal.Header closeButton>
               <Modal.Title>{i18n.t('addChannelModal.title')}</Modal.Title>
@@ -78,6 +80,7 @@ const AddChannelModal = (props) => {
                 className="form-control"
                 autoFocus
                 autoComplete="off"
+                disabled={isSubmitting}
               />
               <ErrorMessage name="name">
                 {(msg) => <div className="invalid-feedback d-block">{msg}</div>}
@@ -91,7 +94,13 @@ const AddChannelModal = (props) => {
               <Button variant="secondary" onClick={onHide}>
                 {i18n.t('cancelButtonText')}
               </Button>
-              <Button variant="primary" type="submit">{i18n.t('saveButtonText')}</Button>
+              <Button
+                variant="primary"
+                type="submit"
+                disabled={isSubmitting || !isValid || !dirty}
+              >
+                {i18n.t('saveButtonText')}
+              </Button>
             </Modal.Footer>
           </Form>
         )}
