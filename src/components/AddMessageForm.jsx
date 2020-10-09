@@ -53,7 +53,13 @@ const AddMessageForm = () => {
       }) => (
         <Form>
           <div className="input-group mb-3">
-            <Field name="text" className="form-control" autoComplete="off" autoFocus disabled={isSubmitting} />
+            <Field
+              name="text"
+              className="form-control"
+              autoComplete="off"
+              autoFocus
+              disabled={isSubmitting}
+            />
             <div className="input-group-append">
               <Button
                 className="align-middle"
