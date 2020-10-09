@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { XCircle, Pencil } from 'react-bootstrap-icons';
 import { ListGroup, Button } from 'react-bootstrap';
+import { BsXCircle, BsPencil } from 'react-icons/bs';
 
 import { setCurrentChannelId } from '../reducers/channels';
 import { setModalInfo } from '../reducers/appUI';
@@ -41,7 +41,7 @@ const Channels = () => {
                 size="sm"
                 onClick={() => dispatch(setModalInfo({ modalInfo: { type: 'editing', channel } }))}
               >
-                <Pencil />
+                <BsPencil />
               </Button>
             )}
             {!removable || (
@@ -51,7 +51,7 @@ const Channels = () => {
                 size="sm"
                 onClick={() => dispatch(setModalInfo({ modalInfo: { type: 'removing', channel } }))}
               >
-                <XCircle />
+                <BsXCircle />
               </Button>
             )}
           </ListGroup.Item>

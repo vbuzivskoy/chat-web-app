@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
+import { FaPaperPlane } from 'react-icons/fa';
 import {
   Formik, Field, Form, ErrorMessage,
 } from 'formik';
@@ -55,12 +56,12 @@ const AddMessageForm = () => {
             <Field name="text" className="form-control" autoComplete="off" autoFocus disabled={isSubmitting} />
             <div className="input-group-append">
               <Button
-                className="input-group-append"
+                className="align-middle"
                 variant="primary"
                 type="submit"
                 disabled={isSubmitting || !isValid || !dirty}
               >
-                Send
+                <FaPaperPlane />
               </Button>
             </div>
           </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, Row, Col } from 'react-bootstrap';
-import { PlusCircle } from 'react-bootstrap-icons';
+import { BsPlusCircle } from 'react-icons/bs';
 import i18n from 'i18next';
 
 import Channels from './Channels';
@@ -37,7 +37,7 @@ const App = () => {
               variant="link"
               onClick={() => dispatch(setModalInfo({ modalInfo: { type: 'adding', channel: null } }))}
             >
-              <PlusCircle />
+              <BsPlusCircle />
             </Button>
           </div>
           <Channels />
