@@ -2,9 +2,7 @@ import React, { useContext, useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import { FaPaperPlane } from 'react-icons/fa';
-import {
-  Formik, Field, Form, ErrorMessage,
-} from 'formik';
+import { Formik, Field, Form } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
 import i18n from 'i18next';
@@ -78,9 +76,7 @@ const AddMessageForm = () => {
               </Button>
             </div>
           </div>
-          <ErrorMessage name="text">
-            {(msg) => <div className="invalid-feedback d-block">{msg}</div>}
-          </ErrorMessage>
+          {errors.text && <div className="invalid-feedback d-block">{errors.text}</div>}
           {errors.submit && <div className="invalid-feedback d-block">{errors.submit}</div>}
         </Form>
       )}
