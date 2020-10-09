@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   Formik,
@@ -27,6 +27,11 @@ const createNewChannelData = (name) => ({
 const AddChannelModal = (props) => {
   const { onHide } = props;
   const dispatch = useDispatch();
+  const inputElement = useRef(null);
+
+  useEffect(() => {
+    inputElement.current.focus();
+  });
 
   const validationSchema = yup.object().shape({
     name: yup.string()
@@ -54,7 +59,6 @@ const AddChannelModal = (props) => {
       show
       onHide={onHide}
       animation={false}
-      restoreFocus
       centered
     >
       <Formik
@@ -62,6 +66,7 @@ const AddChannelModal = (props) => {
           name: '',
         }}
         validationSchema={validationSchema}
+        validateOnBlur={false}
         onSubmit={onAddChannelHandler}
       >
         {({
@@ -78,13 +83,13 @@ const AddChannelModal = (props) => {
                 id="channelName"
                 name="name"
                 className="form-control"
-                autoFocus
                 autoComplete="off"
                 disabled={isSubmitting}
+                innerRef={inputElement}
               />
-              <ErrorMessage name="name">
-                {(msg) => <div className="invalid-feedback d-block">{msg}</div>}
-              </ErrorMessage>
+              {errors.name && (
+                <div className="invalid-feedback d-block">{errors.name}</div>
+              )}
               {errors.submit && (
                 <div className="invalid-feedback d-block">{errors.submit}</div>
               )}
